@@ -9,7 +9,7 @@ module EleVAT
         elsif input_data.content_type == 'text/csv'
           @imported_data = initialize_csv(input_data)
         elsif input_data.content_type == 'application/vnd.ms-excel'
-          @imported_data = initialize_xcell(input_data)
+          @imported_data = initialize_xls(input_data)
         end
       rescue
         raise NotImplementedError, 'Your data import is not precessable yet'
@@ -56,7 +56,7 @@ module EleVAT
       fail NotImplementedError, 'Your data import is not precessable yet'
     end
 
-    def initialize_xcell
+    def initialize_xls
       # TO _DO
       fail NotImplementedError, 'Your data import is not precessable yet'
     end

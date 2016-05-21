@@ -47,7 +47,7 @@ module EleVAT
       @products.size
     end
 
-    def to_xcell
+    def to_xls
       # TO _DO
       fail NotImplementedError
     end
