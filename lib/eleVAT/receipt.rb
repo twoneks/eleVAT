@@ -9,9 +9,11 @@ module EleVAT
     end
 
     def add(product)
-      if product.class == Product
+      if Receipt.valid_product(product)
         @products << product
-      elsif product.class == Array && product.all? { |p| p.is_a?(Product) }
+      elsif product.class == Array && product.all? do |p|
+        p.is_a?(Hash) && Receipt.valid_product(p)
+      end
         @products = product
       else
         fail ArgumentError, 'Parameter must be EleVAT::Product '\
@@ -53,6 +55,15 @@ module EleVAT
     def to_csv
       # TO _DO
       fail NotImplementedError
+    end
+
+    private
+
+    def self.valid_product(product)
+      product.class == Hash && [
+        :quantity, :name, :net_price,
+        :taxable, :imported, :gross_price, :tax
+      ].all? { |s| product.key? s }
     end
   end
 end

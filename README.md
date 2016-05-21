@@ -1,8 +1,6 @@
 # EleVAT
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/eleVAT`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem is a simple receipts creator. It allow you to calculate the amount of taxes and the amount of the total price for a list of products.
 
 ## Installation
 
@@ -22,13 +20,55 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Configure the tax rates, the rounding precision and the list of tax free items
 
-## Development
+```ruby
+require 'eleVAT'
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+EleVAT.configure do |config|
+  # Rate for all the items except for the items included in the tax free item
+  # list
+  config.basic_tax_rate = 10
+  # Rate for the imported items
+  config.import_tax_rate = 5
+  # list of tax free items
+  config.tax_free_items = %w(chocolate chocolates pills book)
+  # Tax amount will be rounded up to the nearest rounding precision value
+  config.rounding_precision = 0.05
+end
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Use the `EleVAT::Importer` to import products and the `EleVAT::Recipt` to calculate the amounts.
+```ruby
+# For each product the string pattern have to be '$quantity $name at $net_price'
+importer = Importer.new(
+  '1 imported box of chocolates at 10.00 1 imported bottle of perfume at 47.50'
+)
+data_for_receipt = importer.export_data_for_receipt
+receipt = Receipt.new data_for_receipt
+```
+You can calculate the the amounts using the following `receipt.calculate_total` and `receipt.calculate_taxes` and access the value through `receipt.total_amount`
+and `receipt.taxes`. You can also access the products list `receipt.products`.
+
+If you don't need to use the importer you can create manually the products and add them to the receipt after prepareing them.
+
+```ruby
+product = Product.new(1, 'Chocolate', 2.0, taxable = true, imported = false)
+receipt.add(product.prepare_for_receipt)
+# or
+product_2 = Product.new(1, 'Beer', 5.0).prepare_for_receipt
+product_3 = Product.new(1, 'Lemon', 2.0).prepare_for_receipt
+receipt.add([product_2, product_3])
+```
+
+Use `receipt.to_s` to view the printable receipt.
+
+## TO DO
+
+1. Implement the importer function to precess xls file
+2. Implement the function receipt `to_xls`
+3. Implement the importer function to precess csv file
+4. Implement the function receipt `to_csv`
 
 ## Contributing
 

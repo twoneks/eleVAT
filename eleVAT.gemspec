@@ -8,6 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = EleVAT::VERSION
   spec.authors       = ["Simone Romanelli"]
   spec.email         = ["simone.romanelli.dev@gmail.com"]
+  spec.homepage      = 'https://github.com/simoneromanelli/eleVAT'
 
   spec.summary          = "eleVAT"
   spec.description      = "A simple receipts calculator."

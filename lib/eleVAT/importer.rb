@@ -41,7 +41,7 @@ module EleVAT
     end
 
     def build_name(array_name)
-      if (imported = array_name.delete('imported'))
+      if (imported = array_name.delete(EleVAT.config.import_label))
         array_name.unshift(imported)
       end
       array_name[0...-1].join(' ')

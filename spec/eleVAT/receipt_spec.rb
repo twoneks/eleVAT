@@ -13,18 +13,21 @@ module EleVAT
         @receipt = Receipt.new
       end
       it 'add product to a list' do
-        @receipt.add(@product)
+        @receipt.add(@product.prepare_for_receipt)
         expect(@receipt.size).to eq 1
       end
 
       it 'add the array to the list' do
-        @receipt.add([@product, @product])
+        @receipt.add([
+          @product.prepare_for_receipt,
+          @product.prepare_for_receipt
+        ])
         expect(@receipt.size).to eq 2
       end
 
-      it 'raise exception adding something different from Product' do
-        string = 'Chocolate'
-        expect { @receipt.add(string) }.to raise_error ArgumentError
+      it 'raise exception adding something different from an hash Product' do
+        invalid_product = { foo: 'bar' }
+        expect { @receipt.add(invalid_product) }.to raise_error ArgumentError
       end
     end
 
