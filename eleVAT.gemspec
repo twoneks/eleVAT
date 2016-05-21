@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary          = "eleVAT"
   spec.description      = "A simple receipts calculator."
-  spec.license       = "MIT"
+  spec.license          = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
