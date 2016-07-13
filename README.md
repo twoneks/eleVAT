@@ -64,11 +64,11 @@ receipt.add([product_2, product_3])
 Use `receipt.to_s` to view the printable receipt.
 
 ## TO DO
-
-1. Implement the importer function to precess xls file
-2. Implement the function receipt `to_xls`
-3. Implement the importer function to precess csv file
-4. Implement the function receipt `to_csv`
+1. Handle the currencies in cents instead of Float to increase the precision.
+2. Implement the importer function to precess xls file
+3. Implement the function receipt `to_xls`
+4. Implement the importer function to precess csv file
+5. Implement the function receipt `to_csv`
 
 ## Contributing
 
